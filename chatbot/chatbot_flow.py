@@ -66,18 +66,23 @@ def process_message(user_id, message):
     # --------------------------------------------------
     if session.step == "confirm_booking":
 
+        # if message.lower() != "yes":
+        #     return {
+        #         "user_id": user_id,
+        #         "bot": "Okay. Let me know if you need help later."
+        #     }
+        
         if message.lower() != "yes":
-            return {
-                "user_id": user_id,
-                "bot": "Okay. Let me know if you need help later."
-            }
+            return "No problem 😊 Let me know whenever you need help."
 
         session.step = "visit_reason"
 
-        return {
-            "user_id": user_id,
-            "bot": "Please tell the reason for your visit."
-        }
+        # return {
+        #     "user_id": user_id,
+        #     "bot": "Please tell the reason for your visit."
+        # }
+        
+        return "Please tell the reason for your visit."
 
     # --------------------------------------------------
     # Visit reason
@@ -104,10 +109,12 @@ def process_message(user_id, message):
 
         text += "\nSelect doctor number."
 
-        return {
-            "user_id": user_id,
-            "bot": text
-        }
+        # return {
+        #     "user_id": user_id,
+        #     "bot": text
+        # }
+        
+        return text
 
     # --------------------------------------------------
     # Select doctor
@@ -159,10 +166,12 @@ def process_message(user_id, message):
 
         text += "\nSelect date number."
 
-        return {
-            "user_id": user_id,
-            "bot": text
-        }
+        # return {
+        #     "user_id": user_id,
+        #     "bot": text
+        # }
+        
+        return text
 
     # --------------------------------------------------
     # Select date
@@ -208,27 +217,42 @@ def process_message(user_id, message):
     # --------------------------------------------------
     # Select slot
     # --------------------------------------------------
-    if session.step == "select_slot":
+    # if session.step == "select_slot":
 
+    #     slots = session.data["slot_list"]
+
+    #     try:
+    #         index = int(message) - 1
+    #         slot = slots[index]
+    #     except:
+    #         return {
+    #             "user_id": user_id,
+    #             "bot": "Invalid slot selection."
+    #         }
+
+    #     session.data["selectedSlot"] = slot
+
+    #     session.step = "appointment_type"
+
+    #     return {
+    #         "user_id": user_id,
+    #         "bot": "Appointment type? (New / Follow Up)"
+    #     }
+    
+    
+    if session.step == "select_slot":
         slots = session.data["slot_list"]
 
         try:
             index = int(message) - 1
             slot = slots[index]
         except:
-            return {
-                "user_id": user_id,
-                "bot": "Invalid slot selection."
-            }
+            return "Invalid slot selection. Please choose a valid slot number."
 
         session.data["selectedSlot"] = slot
-
         session.step = "appointment_type"
 
-        return {
-            "user_id": user_id,
-            "bot": "Appointment type? (New / Follow Up)"
-        }
+        return "Great! What type of appointment is this? (New / Follow Up)"
 
     # --------------------------------------------------
     # Appointment type
@@ -249,10 +273,12 @@ def process_message(user_id, message):
 
         text += "\nSelect treatment number."
 
-        return {
-            "user_id": user_id,
-            "bot": text
-        }
+        # return {
+        #     "user_id": user_id,
+        #     "bot": text
+        # }
+        
+        return text
 
     # --------------------------------------------------
     # Select treatment
@@ -265,21 +291,25 @@ def process_message(user_id, message):
             index = int(message) - 1
             service = services[index]
         except:
-            return {
-                "user_id": user_id,
-                "bot": "Invalid treatment selection."
-            }
+            return "Invalid treatment selection. Please choose a valid option."
 
         session.data["treatmentType"] = service["service_name"]
 
         session.step = "confirm"
 
-        return {
-            "user_id": user_id,
-            "bot": "Confirm appointment booking? (yes/no)"
-        }
+        return "Perfect! Shall I go ahead and book your appointment? (yes/no)"
 
-    return {
-        "user_id": user_id,
-        "bot": f"Unhandled step: {session.step}"
-    }
+
+    # fallback
+    return f"Unhandled step: {session.step}"
+    
+    # if session.step == "confirm":
+    #     if message.lower() == "yes":
+    #         return "Processing your appointment..."   # router will handle actual booking
+
+    # if message.lower() == "no":
+    #     session.step = "select_treatment"  # or restart flow
+
+    #     return "No problem 😊 Would you like to change the treatment type or restart the booking?"
+
+    # return "Please reply with 'yes' or 'no'."
