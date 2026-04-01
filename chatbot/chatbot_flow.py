@@ -389,6 +389,23 @@ def process_message(user_id, message):
         session.step = "select_doctor"
 
         return "Available doctors. Please select one."
+    
+    # if session.step == "visit_reason":
+
+    #     session.data["visitReason"] = message
+
+    #     doctors = get_doctors()
+    #     treatments = get_treatment_types()   # ✅ ADD THIS
+
+    #     if not doctors:
+    #         return "No doctors available."
+
+    #     session.data["doctor_list"] = doctors
+    #     session.data["treatment_list"] = treatments   # ✅ STORE THIS
+
+    #     session.step = "select_doctor"
+
+    #     return "Available doctors. Please select one."
 
     # --------------------------------------------
     # Select doctor

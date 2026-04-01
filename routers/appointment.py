@@ -359,11 +359,58 @@ async def chatbot(request: Request):
                 else:
                     final_image = "https://via.placeholder.com/150"
 
+                # options.append({
+                #     "label": d["emp_name"],
+                #     "value": str(i+1),
+                #     "image": final_image
+                # })
                 options.append({
-                    "label": d["emp_name"],
+                    "label": d.get("emp_name"),
                     "value": str(i+1),
-                    "image": final_image
+                    "image": final_image,
+                    "specialization": d.get("emp_specialization"),
+                    "department": d.get("emp_department")
                 })
+        
+        # elif session.step == "select_doctor":
+
+        #     options = []
+
+        #     # 🔥 Build mapping from treatment API
+        #     treatment_map = {}
+
+        #     for t in session.data.get("treatment_list", []):
+        #         doctor_key = t.get("doctor_key") or t.get("emp_key")
+
+        #         if doctor_key:
+        #             if doctor_key not in treatment_map:
+        #                 treatment_map[doctor_key] = {
+        #                     "specialization": t.get("specialization") or t.get("service_name"),
+        #                     "department": t.get("department", "General")
+        #                 }
+
+        #     for i, d in enumerate(session.data.get("doctor_list", [])):
+
+        #         emp_img = d.get("emp_img")
+
+        #         if emp_img:
+        #             if emp_img.startswith("http"):
+        #                 final_image = emp_img
+        #             else:
+        #                 final_image = BASE_IMAGE_URL + emp_img
+        #         else:
+        #             final_image = "https://via.placeholder.com/150"
+
+        #         # 🔥 Merge specialization
+        #         extra = treatment_map.get(d.get("emp_key"), {})
+
+        #         options.append({
+        #             "label": d["emp_name"],
+        #             "value": str(i+1),
+        #             "image": final_image,
+        #             "specialization": extra.get("specialization", "General"),
+        #             "department": extra.get("department", "General")
+        #         })
 
         # DATE
         elif session.step == "select_date":
