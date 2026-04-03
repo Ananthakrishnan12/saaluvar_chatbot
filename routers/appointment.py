@@ -344,6 +344,34 @@ async def chatbot(request: Request):
             ]
 
         # DOCTOR WITH IMAGE ✅
+        # elif session.step == "select_doctor":
+        #     options = []
+
+        #     for i, d in enumerate(session.data.get("doctor_list", [])):
+
+        #         emp_img = d.get("emp_img")
+
+        #         if emp_img:
+        #             if emp_img.startswith("http"):
+        #                 final_image = emp_img
+        #             else:
+        #                 final_image = BASE_IMAGE_URL + emp_img
+        #         else:
+        #             final_image = "https://via.placeholder.com/150"
+
+        #         # options.append({
+        #         #     "label": d["emp_name"],
+        #         #     "value": str(i+1),
+        #         #     "image": final_image
+        #         # })
+        #         options.append({
+        #             "label": d.get("emp_name"),
+        #             "value": str(i+1),
+        #             "image": final_image,
+        #             "specialization": d.get("emp_specialization"),
+        #             "department": d.get("emp_department")
+        #         })
+        
         elif session.step == "select_doctor":
             options = []
 
@@ -351,19 +379,9 @@ async def chatbot(request: Request):
 
                 emp_img = d.get("emp_img")
 
-                if emp_img:
-                    if emp_img.startswith("http"):
-                        final_image = emp_img
-                    else:
-                        final_image = BASE_IMAGE_URL + emp_img
-                else:
-                    final_image = "https://via.placeholder.com/150"
+                # ✅ KEEP RAW PATH ONLY
+                final_image = emp_img if emp_img else None
 
-                # options.append({
-                #     "label": d["emp_name"],
-                #     "value": str(i+1),
-                #     "image": final_image
-                # })
                 options.append({
                     "label": d.get("emp_name"),
                     "value": str(i+1),
